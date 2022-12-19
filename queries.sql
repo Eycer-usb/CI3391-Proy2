@@ -10,7 +10,7 @@ FROM city as c;
 SELECT o.name as origin, f.name as destination, p1.price as min_cost, p1.steps, p1.visited as path
 FROM pregunta_2a as p1
 JOIN city as o ON o.id = p1.from_city
-JOIN city as f ON f.id = p1.to_city
+JOIN city as f ON f.id = p1.to_city;
 
 
 
