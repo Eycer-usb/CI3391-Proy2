@@ -59,7 +59,7 @@ price money;
 BEGIN
 	other_cities := format
     (
-        'SELECT DISTINCT id FROM %s AS c WHERE c.id != %L ORDER BY RANDOM() LIMIT %L',
+        'SELECT id FROM %s AS c WHERE c.id != %L ORDER BY RANDOM() LIMIT %L',
         table_name, from_id, number
     );
 	
