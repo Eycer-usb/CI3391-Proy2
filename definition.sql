@@ -123,7 +123,7 @@ BEGIN
 		SELECT sp.from_city, f.to_city, sp.price + f.price, sp.level + 1, array_append( sp.visited, f.to_city )
 		FROM flight f
 		JOIN sp ON sp.to_city = f.from_city
-		WHERE sp.level != $2 AND
+		WHERE (sp.level < $2 OR $2 = null) AND
 		NOT ARRAY[f.to_city ] <@ sp.visited
 	)
 	SELECT distinct *
