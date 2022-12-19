@@ -98,11 +98,15 @@ $BODY$;
 -- con 25 vuelos a destinos aleatorios y con precios entre el rango $100 - $900
 CALL create_random_flights('city', 25, 100, 900);
 
+
+
+------------------- METODOS Y FUNCIONES -----------------------
+
 -- VARIANTE DEL ALGORITMO DE DIJKSTRA PARA CAMINO DE COSTO MINIMO
 -- DESDE NODO INICIAL EN UN GRAFO HACIA LOS DEMAS
 CREATE OR REPLACE FUNCTION trip(
 	from_city_id bigint,
-	depth integer)
+	depth integer DEFAULT NULL)
     RETURNS TABLE(from_city bigint, to_city bigint, price money, step integer, visited bigint[]) 
     LANGUAGE 'plpgsql'
 AS $BODY$
@@ -119,7 +123,7 @@ BEGIN
 		SELECT sp.from_city, f.to_city, sp.price + f.price, sp.level + 1, array_append( sp.visited, f.to_city )
 		FROM flight f
 		JOIN sp ON sp.to_city = f.from_city
-		WHERE sp.level < $2 AND
+		WHERE sp.level != $2 AND
 		NOT ARRAY[f.to_city ] <@ sp.visited
 	)
 	SELECT distinct *
@@ -132,7 +136,7 @@ $BODY$;
 -- SE EJECUTA EL ALGORITMO DE DIJKSTRA PARA CAMINO DE COSTO MINIMO
 -- DESDE NODO INICIAL HASTA TODOS LOS DEMAS Y SE AGREGAN LOS COSTOS MINIMOS
 -- A LA TABLA RECIBIDA
-CREATE OR REPLACE FUNCTION shortest_path( origin BIGINT, steps int, table_out varchar )
+CREATE OR REPLACE FUNCTION shortest_path( origin BIGINT, table_out varchar, steps int DEFAULT NULL )
 RETURNS VARCHAR
 AS $$
 BEGIN
@@ -167,7 +171,8 @@ BEGIN
 	
 	-- Una vez ejecutada la funcion de recorrido desde el nodo inicial se
 	-- filtraran los recorridos minimos y almacenan en la tabla de salida
-	EXECUTE format('INSERT INTO %s 
+	EXECUTE format('
+	INSERT INTO %s 
 	SELECT t.*
 	FROM (
 		select s.from_city, s.to_city, min(s.price) as min_cost
