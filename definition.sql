@@ -106,7 +106,7 @@ CALL create_random_flights('city', 25, 100, 900);
 -- DESDE NODO INICIAL EN UN GRAFO HACIA LOS DEMAS
 CREATE OR REPLACE FUNCTION trip(
 	from_city_id bigint,
-	depth integer DEFAULT NULL)
+	depth integer DEFAULT -1)
     RETURNS TABLE(from_city bigint, to_city bigint, price money, step integer, visited bigint[]) 
     LANGUAGE 'plpgsql'
 AS $BODY$
@@ -123,7 +123,7 @@ BEGIN
 		SELECT sp.from_city, f.to_city, sp.price + f.price, sp.level + 1, array_append( sp.visited, f.to_city )
 		FROM flight f
 		JOIN sp ON sp.to_city = f.from_city
-		WHERE (sp.level < $2 OR $2 = null) AND
+		WHERE (sp.level < $2 OR $2 = -1) AND
 		NOT ARRAY[f.to_city ] <@ sp.visited
 	)
 	SELECT distinct *
@@ -136,7 +136,7 @@ $BODY$;
 -- SE EJECUTA EL ALGORITMO DE DIJKSTRA PARA CAMINO DE COSTO MINIMO
 -- DESDE NODO INICIAL HASTA TODOS LOS DEMAS Y SE AGREGAN LOS COSTOS MINIMOS
 -- A LA TABLA RECIBIDA
-CREATE OR REPLACE FUNCTION shortest_path( origin BIGINT, table_out varchar, steps int DEFAULT NULL )
+CREATE OR REPLACE FUNCTION shortest_path( origin BIGINT, table_out varchar, steps int DEFAULT -1 )
 RETURNS VARCHAR
 AS $$
 BEGIN
