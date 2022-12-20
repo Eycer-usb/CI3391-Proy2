@@ -85,5 +85,10 @@ fi
 echo "OK"
 
 printf "\nEjecucion de las Queries solicitadas sobre la base de datos ${DATABASE_NAME}\n"
-PGPASSWORD=${DB_PASSWORD} psql -U ${DB_USER} -a -d ${DATABASE_NAME} -f ${SQL_QUERIES} &> queries_result.out 2> /dev/null
+PGPASSWORD=${DB_PASSWORD} psql -U ${DB_USER} -a -d ${DATABASE_NAME} -f ${SQL_QUERIES} &> queries_result.out 2> error.log
+if [ $? -ne 0 ]
+    then
+        printf  "\nError en la ejecucion de las queries.\n"
+        exit 10
+fi
 echo "OK"
