@@ -48,17 +48,17 @@ JOIN city as f ON f.id = p1.to_city;
 -- shortest_path( origin_city, table_name_out, steps ) sobre
 -- cada ciudad en la lista de ciudades con maximo 3 paradas
 
-SELECT shortest_path( c.id, 'pregunta_2d_tmp')
+SELECT shortest_path( c.id, 'pregunta_2d_tmp', 3)
 FROM city as c;
 
 -- SE RETORNA EL NOMBRE DE LA CIUDAD Y EL DESTINO NO ALCANZABLE
 -- DESDE ESTA CIUDAD. EL RESULTADO SE ALMACENA EN LA TABLA pregunta_2d
-CREATE TABLE IF NOT EXISTS 'pregunta_2d' (
-    from varchar,
+CREATE TABLE IF NOT EXISTS pregunta_2d (
+    from_city varchar,
     not_reacheable varchar
 );
 
-INSERT INTO 'pregunta_2d'
+INSERT INTO pregunta_2d
 SELECT c1.name as from, c2.name as not_reacheable
 	-- DEL PRODUCTO CRUZ city X city
 	-- SE TOMAN LOS NOMBRES LAS CIUDADES NO ALCANZABLES
