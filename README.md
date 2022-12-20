@@ -1,4 +1,4 @@
-# CONSULTAS DE BASE DE DATOS PARA USBAir
+# Consultas de Bases de datos Proyecto 2 CI3391 – Taller de Bases de Datos
 
 # Intrucciones de Ejecucion
 Inicialmente se le debe dar permiso de ejecucion al script start.sh
