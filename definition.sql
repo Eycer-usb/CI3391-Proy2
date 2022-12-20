@@ -30,6 +30,8 @@ CREATE TABLE flight(
 \copy city from 'city.csv' WITH DELIMITER ',' CSV;
 
 
+------------------- METODOS Y FUNCIONES -----------------------
+
 -- funcion de precios valores numericos aleatorios entre rango
 
 CREATE OR REPLACE FUNCTION random_between(low NUMERIC ,high NUMERIC) 
@@ -100,7 +102,6 @@ CALL create_random_flights('city', 25, 100, 900);
 
 
 
-------------------- METODOS Y FUNCIONES -----------------------
 
 -- VARIANTE DEL ALGORITMO DE DIJKSTRA PARA CAMINO DE COSTO MINIMO
 -- DESDE NODO INICIAL EN UN GRAFO HACIA LOS DEMAS
