@@ -14,7 +14,7 @@ Con esto ya el archivo start.sh tendra permiso de ejecucion y
 se puede ejecutar con la siguiente sintaxis
 
 $ ./start.sh [-d database_name] [-f csv_file] [-u db_username] \
-    [-s sql_script.sql] [-q queries.sql]
+    [-s sql_script.sql] [-q queries.sql] [-w database_password]
 
 Por defecto la base de datos se llamara 16-10216 (se creara), el nombre del usuario de la base de datos por defecto es postgres y ademas el nombre del script sql por defecto es definition.sql. Al finalizar la importacion se ejecutara el script determinado por la flag -q (por defecto queries.sql)
 
